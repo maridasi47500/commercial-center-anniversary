@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block montitre %}
+debut de mes mots: welcome to your commercial center
+{% endblock %}
+{% block content %}
+<h1># commercial-center-anniversary</h1>
+{% for x in users | reverse %}
+ <li>{{ x["first_name"]  }}</li>
+
+{% endfor %} 
+fin de mes mots : welcome
+{% endblock %}
+{% block liens %}
+<a href="/">welcome</a>
+{% endblock %}
+<a href="/add_one_showcase"> add one showcase</a><a href="/add_one_shop"> add one shop</a><a href="/add_one_shop_type"> add one shop_type</a><a href="/add_one_anniversary"> add one anniversary</a>

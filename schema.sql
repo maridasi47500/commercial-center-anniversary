@@ -1,39 +1,51 @@
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS post;
-
-CREATE TABLE user (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
+CREATE TABLE  IF NOT EXISTS contacts (
+	contact_id INTEGER PRIMARY KEY,
+	first_name TEXT NOT NULL,
+	last_name TEXT NOT NULL,
+	email TEXT NOT NULL UNIQUE,
+	phone TEXT NOT NULL UNIQUE
 );
-
-CREATE TABLE showcase (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  next_opening INTEGER NOT NULL,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  css_style TEXT NOT NULL,
-  html_page TEXT NOT NULL
+CREATE TABLE IF NOT EXISTS groups (
+   group_id INTEGER PRIMARY KEY,
+   name TEXT NOT NULL
 );
-
-CREATE TABLE shop_type (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  category TEXT NOT NULL,
-  description TEXT NOT NULL
+CREATE TABLE IF NOT EXISTS contact_groups(
+   contact_id INTEGER,
+   group_id INTEGER,
+   PRIMARY KEY (contact_id, group_id),
+   FOREIGN KEY (contact_id) 
+      REFERENCES contacts (contact_id) 
+         ON DELETE CASCADE 
+         ON UPDATE NO ACTION,
+   FOREIGN KEY (group_id) 
+      REFERENCES groups (group_id) 
+         ON DELETE CASCADE 
+         ON UPDATE NO ACTION
 );
-CREATE TABLE shops (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  type_id INTEGER NOT NULL,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  opened_on DATE NOT NULL,
-  name TEXT NOT NULL,
-  FOREIGN KEY (type_id) REFERENCES shop_type (id)
-);
-CREATE TABLE anniversaries (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  shop_id INTEGER NOT NULL,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  year integer NOT NULL,
-  message TEXT NOT NULL,
-  FOREIGN KEY (shop_id) REFERENCES shops (id)
-);
+INSERT OR IGNORE INTO contacts (contact_id, first_name, last_name, email, phone)
+VALUES( '1', 'anonyme', 'noname', 'anonymous@email.fr', '+2653546434');
+INSERT OR IGNORE INTO contacts (contact_id, first_name, last_name, email, phone)
+VALUES( '2', 'anne onim', 'onim', 'anne.onim@email.com', '+86877779898');
+create table if not exists showcase(
+        id integer primary key autoincrement,
+        css_style text,
+            html_page text,
+            next_opening text
+      , created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP                );
+create table if not exists shop(
+        id integer primary key autoincrement,
+        name text,
+            shop_type_id text,
+            opened_on text
+      , created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP                );
+create table if not exists shop_type(
+        id integer primary key autoincrement,
+        name text,
+            description text
+      , created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP                );
+create table if not exists anniversary(
+        id integer primary key autoincrement,
+        shop_id text,
+            year text,
+            message text
+      , created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP                );
